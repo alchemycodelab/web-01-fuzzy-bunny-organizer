@@ -126,6 +126,7 @@ footer {
 .auth-main {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .auth-container {
