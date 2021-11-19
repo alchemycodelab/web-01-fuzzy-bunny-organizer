@@ -7,6 +7,37 @@ export async function getUser() {
     return client.auth.session();
 }
 
+export async function getFamilies() {
+    const response = await client
+        .from('loving_families')
+        .select('*, fuzzy_bunnies (*)');
+
+    return checkError(response);    
+}
+
+export async function deleteBunny(id) {
+    const response = await client
+        .from('fuzzy_bunnies')
+        .delete()
+        .match({ id: id })
+        .single();
+
+    return checkError(response);    
+}
+
+
+export async function createBunny(bunny) {
+    const response = await client
+        .from('fuzzy_bunnies')
+        .insert({
+            ...bunny,
+            user_id: client.auth.session().user.id,
+        });
+
+    return checkError(response);    
+}
+
+
 
 export async function checkAuth() {
     const user = await getUser();
@@ -16,7 +47,7 @@ export async function checkAuth() {
 
 export async function redirectIfLoggedIn() {
     if (await getUser()) {
-        location.replace('./other-page');
+        location.replace('./families');
     }
 }
 
