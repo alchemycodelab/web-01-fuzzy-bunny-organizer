@@ -10,7 +10,8 @@ export async function getUser() {
 export async function getFamilies() {
     const response = await client
         .from('loving_families')
-        .select('*, fuzzy_bunnies (*)');
+        .select('*, fuzzy_bunnies (*)')
+        .match({ ['fuzzy_bunnies.user_id']:  client.auth.session().user.id });
 
     return checkError(response);    
 }
