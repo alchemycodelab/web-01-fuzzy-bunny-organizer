@@ -11,8 +11,8 @@ export async function getFamilies() {
     const response = await client
         .from('loving_families')
         .select('*, fuzzy_bunnies (*)')
-        // this will only fetch bunnies that belong to you
-        // this lets us use the same database for everybody in the cohort  without everybody stepping on each others' toes
+        // this will only fetch bunnies that were created by the current account
+        // this lets us use the same database for everybody in the cohort  without everybody stepping on each others' toes (since everybody will be adding bunnies to these families)
         .match({ ['fuzzy_bunnies.user_id']:  client.auth.session().user.id });
 
     return checkError(response);    
