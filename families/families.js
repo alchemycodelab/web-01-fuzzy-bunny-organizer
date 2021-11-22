@@ -1,4 +1,9 @@
-import { checkAuth, deleteBunny, getFamilies, logout } from '../fetch-utils.js';
+import { 
+    checkAuth, 
+    deleteBunny, 
+    getFamilies, 
+    logout,
+} from '../fetch-utils.js';
 
 checkAuth();
 
@@ -9,7 +14,8 @@ logoutButton.addEventListener('click', () => {
     logout();
 });
 
-function renderFamilies(families) {
+// I could refactor this into some render functions. However, it becomes complicated since I need to call displayFamilies from inside each bunny's click handler.
+function displayFamilies(families) {
     familiesEl.textContent = '';
     
     for (let family of families) {
@@ -33,7 +39,7 @@ function renderFamilies(families) {
 
                 const updatedFamilies = await getFamilies();
 
-                renderFamilies(updatedFamilies);            
+                displayFamilies(updatedFamilies);            
             });
             bunniesEl.append(bunnyEl);
         }
@@ -46,5 +52,5 @@ function renderFamilies(families) {
 window.addEventListener('load', async() => {
     const families = await getFamilies();
 
-    renderFamilies(families);
+    displayFamilies(families);
 });
